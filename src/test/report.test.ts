@@ -62,10 +62,31 @@ jest.mock('@/services/krakenflex.service', () => {
   };
 });
 
+const EXPECTED_SITE_EVENTS = [
+  {
+    "id": "002b28fc-283c-47ec-9af2-ea287336dc1b",
+    "name": "Battery 1",
+    "begin": "2022-05-23T12:21:27.377Z",
+    "end": "2022-11-13T02:16:38.905Z"
+  },
+  {
+    "id": "002b28fc-283c-47ec-9af2-ea287336dc1b",
+    "name": "Battery 1",
+    "begin": "2022-12-04T09:59:33.628Z",
+    "end": "2022-12-12T22:35:13.815Z"
+  },
+  {
+    "id": "086b0d53-b311-4441-aaf3-935646f03d4d",
+    "name": "Battery 2",
+    "begin": "2022-07-12T16:31:47.254Z",
+    "end": "2022-10-13T04:05:10.044Z"
+  }
+];
+
 
 describe('TEST ReportService', () => {
   let reportService: ReportService;
-  
+
   beforeEach(() => {
     // Register the mock service in the container
     const { KrakenService } = require('@/services/krakenflex.service');
@@ -75,36 +96,47 @@ describe('TEST ReportService', () => {
 
   describe('report with siteId', () => {
     it('should report relevant siteEvents', () => {
-      
       const res = reportService.postReport("kingfisher", "2022-01-01T00:00:00.000Z")
-      
+
       expect(res).resolves.toEqual({
         status: 200,
         data: {
-          message: 'Success', postedSiteOutages: [
-            {
-              "id": "002b28fc-283c-47ec-9af2-ea287336dc1b",
-              "name": "Battery 1",
-              "begin": "2022-05-23T12:21:27.377Z",
-              "end": "2022-11-13T02:16:38.905Z"
-            },
-            {
-              "id": "002b28fc-283c-47ec-9af2-ea287336dc1b",
-              "name": "Battery 1",
-              "begin": "2022-12-04T09:59:33.628Z",
-              "end": "2022-12-12T22:35:13.815Z"
-            },
-            {
-              "id": "086b0d53-b311-4441-aaf3-935646f03d4d",
-              "name": "Battery 2",
-              "begin": "2022-07-12T16:31:47.254Z",
-              "end": "2022-10-13T04:05:10.044Z"
-            }
-          ]
+          message: 'Success', 
+          postedSiteOutages: EXPECTED_SITE_EVENTS
         }
       });
     });
   });
+
+  describe('report with siteId but got 500', () => {
+    it('should simulate a server error for postSiteOutages', async () => {
+
+      const { KrakenService } = require('@/services/krakenflex.service');
+      const mockKrakenServiceInstance = new KrakenService();
+
+      // Override the postSiteOutages mock to simulate a 500 error
+      mockKrakenServiceInstance.postSiteOutages.mockResolvedValueOnce({
+        status: 500,
+        data: {
+          message: 'Internal Server Error',
+        },
+      });
+
+      // Inject the modified mock instance
+      Container.set(KrakenService, mockKrakenServiceInstance);
+      const res = reportService.postReport("kingfisher", "2022-01-01T00:00:00.000Z");
+
+      await expect(res).resolves.toEqual({
+        status: 500,
+        data: {
+          message: 'Internal Server Error',
+          postedSiteOutages: EXPECTED_SITE_EVENTS
+        },
+      });
+    });
+  });
+
+
 });
 
 

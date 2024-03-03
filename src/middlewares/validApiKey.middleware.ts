@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { HttpException } from '@/exceptions/httpException';
-import { SECRET_KEY } from '@/config';
+import { API_KEY } from '@/config';
 
 const getAuthorization = req => {
   const apiKey = req.header('X-API-Key');
@@ -25,7 +25,7 @@ export const ValidationMiddleware = (req: Request, res: Response, next: NextFunc
 
     if (Authorization) {
       const Authorization = getAuthorization(req);
-      if (Authorization === SECRET_KEY) {
+      if (Authorization === API_KEY) {
         next();
       } else {
         next(new HttpException(401, 'Wrong authentication token'));

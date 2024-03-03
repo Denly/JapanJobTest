@@ -6,7 +6,7 @@
   "license": "ISC",
   "scripts": {
     "start": "npm run build && cross-env NODE_ENV=production node dist/server.js",
-    "dev": "cross-env NODE_ENV=development SECRET_KEY=myApiKey KRAKEN_API_KEY=EltgJ5G8m44IzwE6UN2Y4B4NjPW77Zk6FJK3lL23 nodemon",
+    "dev": "cross-env NODE_ENV=development API_KEY=myApiKey KRAKEN_API_KEY=EltgJ5G8m44IzwE6UN2Y4B4NjPW77Zk6FJK3lL23 nodemon",
     "build": "swc src -d dist --source-maps --copy-files",
     "build:tsc": "tsc && tsc-alias",
     "test": "jest --forceExit --detectOpenHandles --verbose --silent=false",
