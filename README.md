@@ -105,11 +105,16 @@ The files with arrows bellow are the important ones
 
 ## ☎️ API
 
-It has all the kraken api and it's own API
+It has all the kraken api working in swagger
 
-`POST /report/{siteId}` body: 
+1. `GET /outages` which returns all outages in our system
+2. `GET /site-info/{siteId}` which returns specific information about a site
+3. `POST /site-outages/{siteId}` which expects outages for a specific site to be posted to it
 
-Given a siteId, report the relevant outages events to `POST /site-outages/{siteId}`
+
+And it's own API working in report.http
+
+4. `POST /report/{siteId}` Given a siteId, report the relevant outages events to `POST /site-outages/{siteId}`
 
 ## 🧪 Test
 
