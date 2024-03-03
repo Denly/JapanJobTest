@@ -1,0 +1,15 @@
+# baseURL
+@baseURL = http://localhost:3000
+
+###
+# Post Report with siteId "norwich-pear-tree"
+# Should return 200
+POST {{ baseURL }}/report/norwich-pear-tree
+Content-Type: application/json
+X-API-Key: myApiKey
+
+###
+# Post Report by siteId without X-API-Key
+# Will return "message": "Authentication token missing"
+POST {{ baseURL }}/report/norwich-pear-tree
+Content-Type: application/json
