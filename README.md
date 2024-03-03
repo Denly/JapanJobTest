@@ -2,9 +2,29 @@
 
 ## 🚀 Quick Start
 
-1. `npm install` and `npm run dev` This will start with the env var that has our API_KEY=myApiKey and KRAKEN_API_KEY=EltgJ5G8m44IzwE6UN2Y4B4NjPW77Zk6FJK3lL23 (Yes they should not be in the repo but this is test)
+1. Create a file named ".env.development.local" with the following text as env var 
 
-2. Go to `/src/http/report.http` and use REST Client in VS Code to interact with the API, that is POST {{ baseURL }}/report/norwich-pear-tree the API_KEY=myApiKey is already attached. (Or call the api by any tool you like) 
+```
+# PORT
+PORT = 3000
+
+# TOKEN
+SECRET_KEY = secretKey
+API_KEY = myApiKey
+KRAKEN_API_KEY = EltgJ5G8m44IzwE6UN2Y4B4NjPW77Zk6FJK3lL23
+
+# LOG
+LOG_FORMAT = dev
+LOG_DIR = ../logs
+
+# CORS
+ORIGIN = *
+CREDENTIALS = true
+```
+
+2. `npm install` and `npm run dev` This will start with the env var that has our API_KEY and KRAKEN_API_KEY (Yes they should not be in the repo but this is test)
+
+3. Go to `/src/http/report.http` and use REST Client in VS Code to interact with the API, that is POST {{ baseURL }}/report/norwich-pear-tree the API_KEY=myApiKey is already attached. (Or call the api by any tool you like) 
 
 
 ## 🗂 Code Structure 
